@@ -13,7 +13,7 @@ class BooksController extends Controller
     public function index()
     {
         $book = new Book('Mastering Laravel 12', 'Web Development');
-        return $book->getBookInfo();
+        return $book->theJournal();
     }
 
     /**
