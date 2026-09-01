@@ -12,8 +12,36 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $book = new Book('Mastering Laravel 12', 'Web Development');
-        return $book->theJournal();
+        // $book = new Book('Mastering Laravel 12', 'Web Development');
+        // return $book->theJournal();
+        $books = [
+            [
+                'id' => 1,
+                'title' => 'Mastering Laravel 12',
+                'author' => 'John Doe',
+                'category' => 'Web Development',
+                'year' => 2025,
+                'description' => 'Panduan lengkap untuk membangun aplikasi modern dengan Laravel 12.'
+            ],
+            [
+                'id' => 2,
+                'title' => 'PHP OOP Advanced',
+                'author' => 'Jane Smith',
+                'category' => 'Programming',
+                'year' => 2024,
+                'description' => 'Belajar konsep OOP PHP dengan studi kasus nyata.'
+            ],
+            [
+                'id' => 3,
+                'title' => 'Clean Code in Practice',
+                'author' => 'Robert Martin',
+                'category' => 'Software Engineering',
+                'year' => 2023,
+                'description' => 'Menulis kode yang rapi, efisien, dan mudah dipelihara.'
+            ]
+        ];
+
+        return view('books.index', compact('books'));
     }
 
     /**
@@ -21,7 +49,7 @@ class BooksController extends Controller
      */
     public function create()
     {
-        //
+        return view('books.create');
     }
 
     /**

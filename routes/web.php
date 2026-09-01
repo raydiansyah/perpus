@@ -11,3 +11,9 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::resources([
     'books' => BooksController::class,
 ]);
+Route::get('/user/{name?}', function(?string $name = 'John'){
+    return $name;
+});
+Route::get('/admin', function(){
+    return 'ini halaman admin';
+})->middleware('admin');
