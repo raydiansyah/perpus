@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +17,37 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // 1. Seed Categories
+        $categories = [
+            ['name' => 'Web Development'],
+            ['name' => 'Data Science'],
+            ['name' => 'Design & UI/UX'],
+            ['name' => 'Mobile Development'],
+            ['name' => 'Networking & Security'],
+        ];
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        foreach ($categories as $category) {
+            Category::firstOrCreate($category);
+        }
+
+        // 2. Seed Admin User
+        User::firstOrCreate(
+            ['email' => 'admin@perpus.test'],
+            [
+                'name' => 'Super Admin',
+                'password' => Hash::make('password'),
+                'isadmin' => true,
+            ]
+        );
+
+        // 3. Seed Regular User
+        User::firstOrCreate(
+            ['email' => 'user@perpus.test'],
+            [
+                'name' => 'User Biasa',
+                'password' => Hash::make('password'),
+                'isadmin' => false,
+            ]
+        );
     }
 }
