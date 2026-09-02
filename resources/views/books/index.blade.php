@@ -7,9 +7,11 @@
                 <h2 class="mt-1 text-2xl font-bold text-slate-900">Books</h2>
             </div>
 
+            @if (auth()->check() && auth()->user()->isadmin)
             <a href="{{ route('books.create') }}" class="inline-flex items-center justify-center rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-500/30 transition hover:bg-brand-700">
                 + Add Book
             </a>
+            @endif
         </div>
 
         @if (session('success'))
@@ -28,7 +30,9 @@
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Author</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Category</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Year</th>
+                            @if (auth()->check() && auth()->user()->isadmin)
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 bg-white">
@@ -44,12 +48,15 @@
                                 <td class="px-6 py-4 text-sm text-slate-700">{{ $book['author'] }}</td>
                                 <td class="px-6 py-4 text-sm text-slate-700">{{ $book->category->name ?? '-' }}</td>
                                 <td class="px-6 py-4 text-sm text-slate-700">{{ $book['year'] }}</td>
+                                @if (auth()->check() && auth()->user()->isadmin)
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
+                                    @if (auth()->check() && auth()->user()->isadmin)
                                         <a href="{{ route('books.edit', $book['id']) }}" class="rounded-lg bg-amber-500 px-3 py-2 text-xs font-semibold text-white transition hover:bg-amber-600">
                                             Edit
                                         </a>
-
+                                    @endif
+                                    @if (auth()->check() && auth()->user()->isadmin)
                                         <form action="{{ route('books.destroy', $book['id']) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku ini?')">
                                             @csrf
                                             @method('DELETE')
@@ -57,8 +64,10 @@
                                                 Delete
                                             </button>
                                         </form>
+                                        @endif
                                     </div>
                                 </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

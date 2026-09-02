@@ -30,6 +30,9 @@ class RegisterController extends Controller
             'isadmin' => false,
         ]);
 
+        //contoh debug pembuktian hash atau encrypt
+        //dd('ini adalah versi encrypt:'. Hash::make($request->password).'<br/>sedangkan ini versi nomal '. $request->password);
+
         Auth::login($user);
 
         if($user->isadmin){

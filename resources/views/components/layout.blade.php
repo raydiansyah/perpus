@@ -85,15 +85,30 @@
                             <span class="absolute -right-1 -top-1 inline-flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">3</span>
                         </button>
 
-                        <div class="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5">
-                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="User avatar" class="h-9 w-9 rounded-full object-cover" />
-                            <div class="hidden text-left sm:block">
-                                <p class="text-sm font-semibold text-slate-900">Admin User</p>
-                                <p class="text-xs text-slate-500">Super Admin</p>
+                        <div class="relative" data-user-menu>
+                            <button type="button" data-user-menu-button class="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5 text-left transition hover:bg-slate-100">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="User avatar" class="h-9 w-9 rounded-full object-cover" />
+                                <div class="hidden text-left sm:block">
+                                    <p class="text-sm font-semibold text-slate-900">{{ auth()->user()->name ?? 'Admin User' }}</p>
+                                    <p class="text-xs text-slate-500">{{ auth()->user()->isadmin ? 'Super Admin' : 'User' }}</p>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="hidden h-4 w-4 text-slate-500 sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <div data-user-menu-panel class="absolute right-0 top-full z-50 pt-2 hidden">
+                                <div class="w-52 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
+                                    <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-100">Profil</a>
+                                    <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-100">Pengaturan</a>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="flex w-full items-center justify-start rounded-lg px-3 py-2 text-left text-sm text-red-600 transition hover:bg-red-50">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="hidden h-4 w-4 text-slate-500 sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 9l-7 7-7-7" />
-                            </svg>
                         </div>
                     </div>
                 </div>
@@ -150,6 +165,23 @@
                     button.querySelector('svg').classList.toggle('rotate-180');
                 });
             });
+
+            const userMenu = document.querySelector('[data-user-menu]');
+            const userMenuButton = document.querySelector('[data-user-menu-button]');
+            const userMenuPanel = document.querySelector('[data-user-menu-panel]');
+
+            if (userMenu && userMenuButton && userMenuPanel) {
+                userMenuButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    userMenuPanel.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', (event) => {
+                    if (!userMenu.contains(event.target)) {
+                        userMenuPanel.classList.add('hidden');
+                    }
+                });
+            }
         </script>
     </body>
 </html>
