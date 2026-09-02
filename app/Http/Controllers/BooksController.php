@@ -37,7 +37,7 @@ class BooksController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate($this->rules());
+        $validated = $request->validate($this->rules(), $this->messages());
         DataBook::query()->create($validated);
 
         return redirect()->route('books.index')->with('success', 'Buku berhasil ditambahkan.');
@@ -58,6 +58,7 @@ class BooksController extends Controller
      */
     public function edit(DataBook $book)
     {
+        // dd($book['author']);
         $categories = Category::query()->orderBy('name')->get();
 
         return view('books.edit', compact('book', 'categories'));
@@ -68,7 +69,7 @@ class BooksController extends Controller
      */
     public function update(Request $request, DataBook $book): RedirectResponse
     {
-        $validated = $request->validate($this->rules());
+        $validated = $request->validate($this->rules(), $this->messages());
         $book->update($validated);
 
         return redirect()->route('books.index')->with('success', 'Buku berhasil diperbarui.');
@@ -92,7 +93,24 @@ class BooksController extends Controller
             // 'category' => 'required',
             'category_id' => 'required|exists:categories,id',
             'year' => 'required|integer|min:1000|max:2100',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:500',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'Kolom judul buku wajib diisi.',
+            'title.max' => 'Judul buku maksimal 255 karakter.',
+            'author.required' => 'Kolom penulis wajib diisi.',
+            'author.max' => 'Nama penulis maksimal 255 karakter.',
+            'category_id.required' => 'Kategori wajib dipilih.',
+            'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+            'year.required' => 'Tahun terbit wajib diisi.',
+            'year.integer' => 'Tahun terbit harus berupa angka.',
+            'year.min' => 'Tahun terbit minimal 1000.',
+            'year.max' => 'Tahun terbit maksimal 2100.',
+            'description.max' => 'Deskripsi maksimal 500 karakter.',
         ];
     }
 }

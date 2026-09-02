@@ -14,7 +14,13 @@
         <form action="{{ route('books.store') }}" method="POST" class="grid gap-5 md:grid-cols-2">
             @csrf
             @if ($errors->any())
-                <div class="md:col-span-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">Periksa kembali input buku.</div>
+                <div class="md:col-span-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    <ul class="list-disc space-y-1 pl-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700">Judul Buku</label>
