@@ -18,27 +18,47 @@
             @endif
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700">Judul Buku</label>
-                <input type="text" name="title" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" placeholder="Masukkan judul buku" />
+                <input type="text" name="title" value="{{ old('title') }}" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" placeholder="Masukkan judul buku" />
+                @error('title')
+                    <p class="text-xs text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700">Penulis</label>
-                <input type="text" name="author" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" placeholder="Masukkan nama penulis" />
+                <input type="text" name="author" value="{{ old('author') }}" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" placeholder="Masukkan nama penulis" />
+                @error('author')
+                    <p class="text-xs text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700">Kategori</label>
-                <input type="text" name="category" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" placeholder="Contoh: Web Development" />
+                <select name="category_id" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white">
+                    <option value="">Pilih kategori</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                    <p class="text-xs text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700">Tahun Terbit</label>
-                <input type="number" name="year" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" placeholder="2025" />
+                <input type="number" name="year" value="{{ old('year') }}" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" placeholder="2025" />
+                @error('year')
+                    <p class="text-xs text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="space-y-2 md:col-span-2">
                 <label class="block text-sm font-medium text-slate-700">Deskripsi</label>
-                <textarea name="description" rows="5" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" placeholder="Masukkan deskripsi buku"></textarea>
+                <textarea name="description" rows="5" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" placeholder="Masukkan deskripsi buku">{{ old('description') }}</textarea>
+                @error('description')
+                    <p class="text-xs text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="md:col-span-2 flex items-center justify-end gap-3 pt-2">

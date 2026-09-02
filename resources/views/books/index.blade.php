@@ -42,7 +42,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-sm text-slate-700">{{ $book['author'] }}</td>
-                                <td class="px-6 py-4 text-sm text-slate-700">{{ $book['category'] }}</td>
+                                <td class="px-6 py-4 text-sm text-slate-700">{{ $book->category->name ?? '-' }}</td>
                                 <td class="px-6 py-4 text-sm text-slate-700">{{ $book['year'] }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
