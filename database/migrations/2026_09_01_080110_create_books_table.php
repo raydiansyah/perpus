@@ -13,18 +13,20 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table){
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->timestamps();
         });
 
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')
-            ->constrained()
-            ->cascadeOnUpdate();
+                ->constrained('categories')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
             $table->string('title');
-            $table->string('penerbit')->nullable();
-            $table->unsignedInteger('stok')->default(0);
+            $table->string('author', 50);
+            $table->unsignedSmallInteger('year');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -35,5 +37,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('books');
+        Schema::dropIfExists('categories');
     }
 };

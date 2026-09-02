@@ -15,31 +15,56 @@
             @csrf
             @method('PUT')
             @if ($errors->any())
-                <div class="md:col-span-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">Periksa kembali input buku.</div>
+                <div class="md:col-span-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    <ul class="list-disc space-y-1 pl-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700">Judul Buku</label>
-                <input type="text" name="title" value="{{ $book['title'] ?? '' }}" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" />
+                <input type="text" name="title" value="{{ old('title', $book['title'] ?? '') }}" class="w-full rounded-xl border px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white @error('title') border-red-500 bg-red-50 @else border-slate-200 bg-slate-50 @enderror" />
+                @error('title')
+                    <p class="text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700">Penulis</label>
-                <input type="text" name="author" value="{{ $book['author'] ?? '' }}" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" />
+                <input type="text" name="author" value="{{ old('author', $book['author'] ?? '') }}" class="w-full rounded-xl border px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white @error('author') border-red-500 bg-red-50 @else border-slate-200 bg-slate-50 @enderror" />
+                @error('author')
+                    <p class="text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700">Kategori</label>
-                <input type="text" name="category" value="{{ $book['category'] ?? '' }}" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" />
+                <select name="category_id" class="w-full rounded-xl border px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white @error('category_id') border-red-500 bg-red-50 @else border-slate-200 bg-slate-50 @enderror">
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected(old('category_id', $book->category_id) == $category->id)>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                    <p class="text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700">Tahun Terbit</label>
-                <input type="number" name="year" value="{{ $book['year'] ?? '' }}" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white" />
+                <input type="number" name="year" value="{{ old('year', $book['year'] ?? '') }}" class="w-full rounded-xl border px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white @error('year') border-red-500 bg-red-50 @else border-slate-200 bg-slate-50 @enderror" />
+                @error('year')
+                    <p class="text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="space-y-2 md:col-span-2">
                 <label class="block text-sm font-medium text-slate-700">Deskripsi</label>
-                <textarea name="description" rows="5" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white">{{ $book['description'] ?? '' }}</textarea>
+                <textarea name="description" rows="5" class="w-full rounded-xl border px-4 py-3 text-slate-900 outline-none transition focus:border-brand-500 focus:bg-white @error('description') border-red-500 bg-red-50 @else border-slate-200 bg-slate-50 @enderror">{{ old('description', $book['description'] ?? '') }}</textarea>
+                @error('description')
+                    <p class="text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="md:col-span-2 flex items-center justify-end gap-3 pt-2">
